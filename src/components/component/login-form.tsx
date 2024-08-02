@@ -18,13 +18,33 @@ To read more about using these font, please visit the Next.js documentation:
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
 export function LoginForm() {
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    const username = e.target.username.value
+    const password = e.target.password.value
+
+    fetch('http://localhost:3001/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+      })
+      .catch(console.error) // eslint-disable
+  }
+
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-[#503dab] to-[#604CC3]">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg animate-fade-in">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold">Bienvenido</h2>
         </div>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-700">
               Nombre de usuario
