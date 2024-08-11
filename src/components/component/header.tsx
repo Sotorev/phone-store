@@ -30,6 +30,11 @@ export function Header() {
                   Inicio
                 </NavigationMenuLink>
               </Link>
+              <Link href="/User/listView" legacyBehavior passHref>
+                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
+                  Usuarios
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Proveedores</NavigationMenuTrigger>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ModalEditUser } from "@/components/component/modal-edit-user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 interface User {
   user_id: number;
