@@ -12,6 +12,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!isLogged) {
       const token = localStorage.getItem('token');
       if (token) {
+
         setIsLogged(true);
       } else
       router.push('/login'); // Redirect to the login page
@@ -23,12 +24,18 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
+    const response = fetch('http://localhost:3001/auth/logout', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     setIsLogged(false);
     // Remove token from localStorage
     localStorage.removeItem('token');
   };
-
   return (
+
     <AuthContext.Provider value={{ isLogged, login, logout }}>
       {children}
     </AuthContext.Provider>

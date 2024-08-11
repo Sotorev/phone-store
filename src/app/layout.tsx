@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/component/header";
 import AuthProvider from "@/components/component/auth-provider";
 import clsx from "clsx";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(inter.className, "h-screen")}>
-        <AuthProvider>
-          <Header />
-          {children}
-        </AuthProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AuthProvider>
+            <Header />
+            {children}
+          </AuthProvider>
+        </Suspense>
       </body>
     </html>
   );
