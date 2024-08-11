@@ -50,6 +50,19 @@ export function Header() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
+              <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Clientes</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <ListItem href="/clientes/nuevo" title="Crear">
+                    Ingresa los datos del cliente
+                  </ListItem>
+                  <ListItem href="/clientes/ver" title="Ver">
+                    Visualiza los cliente
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Productos</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
