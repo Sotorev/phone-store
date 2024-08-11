@@ -6,8 +6,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLab
 import { Button } from "@/components/ui/button"
 import AuthContext from "@/hooks/auth-context";
 import { cn } from "@/lib/utils";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
-
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 export function Header() {
 
   const { logout, isLogged } = useContext(AuthContext);
@@ -25,9 +24,26 @@ export function Header() {
         </Link>
         <NavigationMenu>
           <NavigationMenuList>
-            <Link href="/" className="font-medium text-primary-foreground hover:text-foreground" prefetch={false}>
-              Inicio
-            </Link>
+            <NavigationMenuItem>
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
+                  Inicio
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Proveedores</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <ListItem href="/proveedores/nuevo" title="Crear">
+                    Ingresa los datos del proveedor
+                  </ListItem>
+                  <ListItem href="/proveedores/ver" title="Ver">
+                    Visualiza los proveedores
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Productos</NavigationMenuTrigger>
               <NavigationMenuContent>

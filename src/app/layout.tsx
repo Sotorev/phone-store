@@ -5,6 +5,7 @@ import { Header } from "@/components/component/header";
 import AuthProvider from "@/components/component/auth-provider";
 import clsx from "clsx";
 import { Suspense } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <AuthProvider>
             <Header />
             {children}
+            <Toaster />
           </AuthProvider>
         </Suspense>
       </body>
