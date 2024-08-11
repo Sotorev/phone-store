@@ -1,9 +1,11 @@
+'use client';
 import React from 'react'
+import {ProductsForm} from '@/components/component/products-form'
 
-const ProductsForm = () => {
+const Products = () => {
   return (
-	<div>  </div>
+    <ProductsForm />
   )
 }
 
-export default ProductsForm;
+export default Products;
