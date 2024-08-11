@@ -78,9 +78,16 @@ export function Header() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-           
+            <NavigationMenuItem>
+              <Link href="/lotes/ver" legacyBehavior passHref>
+                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
+                  Lotes
+                </NavigationMenuLink>
+              </Link>
+              </NavigationMenuItem>
+
           </NavigationMenuList>
-         
+
         </NavigationMenu>
 
       </div>

@@ -138,7 +138,7 @@ const PerishableProductsPage = () => {
 						<TableHead>Cantidad</TableHead>
 						{/* <TableHead>Fecha de producción</TableHead>
 						<TableHead>Fecha de expiración</TableHead> */}
-						<TableHead className="text-right">Actions</TableHead>
+						<TableHead className="text-right">Acciones</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
