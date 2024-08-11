@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ModalEditUser } from "@/components/component/modal-edit-user";
+import { ModalCreateUser } from "@/components/component/modal-create-user";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 interface User {
   user_id: number;
@@ -22,7 +23,8 @@ export function ListViewUser() {
   const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const router = useRouter(); // Hook para manejar la redirección
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false); 
+  const router = useRouter();
 
   useEffect(() => {
     fetchUsers();
@@ -49,9 +51,9 @@ export function ListViewUser() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data: User[] = await response.json(); 
-      const activeUsers = data.filter((user) => user.is_active === 1); 
-      setUsers(activeUsers); 
+      const data: User[] = await response.json();
+      const activeUsers = data.filter((user) => user.is_active === 1);
+      setUsers(activeUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -68,7 +70,7 @@ export function ListViewUser() {
   };
 
   const handleUpdateUser = () => {
-    fetchUsers(); 
+    fetchUsers();
   };
 
   const handleDeactivateUser = async (userId: number, username: string) => {
@@ -108,11 +110,7 @@ export function ListViewUser() {
             confirmButtonColor: '#604CC3',
             confirmButtonText: 'Cerrar'
           });
-          fetchUsers(); 
-          
-          // Redirige a la página deseada
-          router.push('/User/listViewOff'); // Cambia la ruta según necesites
-          
+          fetchUsers();
         } else {
           MySwal.fire({
             title: 'Error',
@@ -135,16 +133,32 @@ export function ListViewUser() {
     }
   };
 
+  const handleOpenCreateModal = () => {
+    setIsCreateModalOpen(true); 
+  };
+
+  const handleCloseCreateModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const handleCreateUser = () => {
+    fetchUsers(); 
+  };
+
   return (
     <div className="flex flex-col items-center mt-12">
       <div className="flex space-x-4 mb-6">
-        <Button variant="outline" className="bg-[#604CC3] text-white hover:bg-[#4b3f8c]">
+        <Button
+          variant="outline"
+          className="bg-[#604CC3] text-white hover:bg-[#4b3f8c]"
+          onClick={handleOpenCreateModal} 
+        >
           Nuevo
         </Button>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="bg-[#f0f0f0] text-[#604CC3] hover:bg-[#e0e0e0]"
-          onClick={() => router.push('/User/listViewOff')} // Redirige a la página de desactivados
+          onClick={() => router.push('/User/listViewOff')}
         >
           Ver Desactivados
         </Button>
@@ -185,6 +199,12 @@ export function ListViewUser() {
           user={selectedUser} 
           onClose={handleCloseModal}
           onUpdate={handleUpdateUser} 
+        />
+      )}
+      {isCreateModalOpen && (
+        <ModalCreateUser 
+          onClose={handleCloseCreateModal}
+          onCreate={handleCreateUser} 
         />
       )}
     </div>
