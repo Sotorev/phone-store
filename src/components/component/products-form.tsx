@@ -25,7 +25,7 @@ export function ProductsForm() {
   const router = useRouter();
   const { isLogged } = useContext(AuthContext);
   const [categories, setCategories] = useState<{ category_id: string, category_name: string, is_active: 1 | 0 }[]>([]);
-  const [suppliers, setSuppliers] = useState<{ supplier_id: string, supplier_name: string, is_active: 1 | 0 }[]>([]);
+  const [suppliers, setSuppliers] = useState<{ supplier_id: string, name: string, description: string, is_active: 1 | 0 }[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -176,7 +176,7 @@ export function ProductsForm() {
               name="supplier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Categoría</FormLabel>
+                  <FormLabel>Proveedores</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -185,13 +185,11 @@ export function ProductsForm() {
                     </FormControl>
                     <SelectContent>
                       <SelectGroup>
-                        {
-                          suppliers.map((supplier) => (
-                            <SelectItem value={supplier.supplier_id.toString()} key={supplier.supplier_id}>
-                              {supplier.supplier_name}
-                            </SelectItem>
-                          ))
-                        }
+                        {suppliers.map((supplier) => (
+                          <SelectItem value={supplier.supplier_id.toString()} key={supplier.supplier_id}>
+                            {supplier.name}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
