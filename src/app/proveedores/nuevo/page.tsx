@@ -48,6 +48,7 @@ export default function SupplierForm() {
 		defaultValues: {
 			name: '',
 			description: '',
+			phone: '',
 		},
 	});
 
@@ -68,7 +69,9 @@ export default function SupplierForm() {
 
 		if (res.ok) {
 			// Handle successful submission
-			toast({description:'Proveedor creado exitosamente'});
+			toast({ description: 'Proveedor creado exitosamente' });
+			// Clear form
+			form.reset();
 		} else {
 			// Handle error
 			toast({description:'Error al crear el proveedor', variant: "destructive"});

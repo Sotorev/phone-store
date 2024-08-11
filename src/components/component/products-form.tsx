@@ -20,12 +20,15 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
+import { useToast } from "@/components/ui/use-toast";
+
 
 export function ProductsForm() {
   const router = useRouter();
   const { isLogged } = useContext(AuthContext);
   const [categories, setCategories] = useState<{ category_id: string, category_name: string, is_active: 1 | 0 }[]>([]);
   const [suppliers, setSuppliers] = useState<{ supplier_id: string, name: string, description: string, is_active: 1 | 0 }[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,7 +47,7 @@ export function ProductsForm() {
       .then((data) => {
         setCategories(data);
       });
-    
+
     fetch('http://localhost:3001/web/api/supplier', {
       method: 'GET',
       headers: {
@@ -57,7 +60,7 @@ export function ProductsForm() {
       .then((data) => {
         setSuppliers(data);
       });
-    
+
   }
     , []);
 
@@ -85,39 +88,73 @@ export function ProductsForm() {
       productionDate: '',
       price: 0,
       quantity: 0,
+      category: '',
+      supplier: '',
+
 
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
     const token = localStorage.getItem('token');
     if (!token) {
       router.push('/login');
     }
 
     if (values.perishable) {
-      const res = await fetch('http://localhost:3001/web/api/perishableProduct', {
+      const res = await fetch('http://localhost:3001/web/api/perishableProducts', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application',
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-          name: values.name,
-          categoryId: values.category,
+          product_name: values.name,
           price: values.price,
           quantity: values.quantity,
-          expirationDate: values.expirationDate,
-          productionDate: values.productionDate,
+          expiration_date: values.expirationDate,
+          production_date: values.productionDate,
+          category_id: Number(values.category),
         }),
       });
 
-
-
+      if (res.ok) {
+        toast({ description: 'Producto perecedero creado exitosamente' });
+        // Clear form
+        form.reset();
+      }
+      else {
+        toast({ description: 'Error al crear el producto', variant: 'destructive' });
+      }
     }
+    else {
+      const res = await fetch('http://localhost:3001/web/api/nonPerishableProducts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          product_name: values.name,
+          category_id: values.category,
+          price: values.price,
+          quantity: values.quantity,
+          supplier_id: values.supplier,
+        }),
+      });
 
-  };
+      if (res.ok) {
+        toast({ description: 'Producto creado exitosamente' });
+        // Clear form
+        form.reset();
+      }
+      else {
+        toast({ description: 'Error al crear el producto', variant: 'destructive' });
+      }
+
+
+    };
+  }
 
   if (!isLogged) return null;
 
@@ -125,7 +162,7 @@ export function ProductsForm() {
 
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-[#503dab] to-[#604CC3]">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-[#503dab] to-[#604CC3]" >
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg animate-fade-in">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold">Crear Producto</h2>
@@ -244,19 +281,7 @@ export function ProductsForm() {
             />
             {form.watch('perishable') && (
               <>
-                <FormField
-                  control={form.control}
-                  name="expirationDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Fecha de vencimiento</FormLabel>
-                      <FormControl>
-                        <Input type="date" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                
                 <FormField
                   control={form.control}
                   name="productionDate"
@@ -270,12 +295,25 @@ export function ProductsForm() {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="expirationDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Fecha de vencimiento</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </>
             )}
             <Button type="submit" className="w-full">Crear Producto</Button>
           </form>
         </Form>
       </div>
-    </div>
+    </div >
   );
 }

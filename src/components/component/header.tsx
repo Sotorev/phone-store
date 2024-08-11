@@ -64,6 +64,12 @@ export function Header() {
                   <ListItem href="/productos/nuevo" title="Crear">
                     Ingresa los datos del producto
                   </ListItem>
+                  <ListItem href="/productos/ver/perecederos" title="Ver productos perecederos">
+                    Visualiza los productos perecederos
+                  </ListItem>
+                  <ListItem href="/productos/ver/no-perecederos" title="Ver productos no perecederos">
+                    Visualiza los productos no perecederos
+                  </ListItem>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
