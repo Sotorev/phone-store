@@ -45,7 +45,6 @@ export function LoginForm() {
         localStorage.setItem('token', data.token)
         login()
         router.push('/')
-
       })
       .catch(console.error) // eslint-disable
   }

@@ -47,6 +47,9 @@ export function Header() {
           <Link href="/" className="font-medium text-primary-foreground hover:text-foreground" prefetch={false}>
             Dashboard
           </Link>
+          <Link href="/User/listView" className="font-medium text-primary-foreground hover:text-foreground" prefetch={false}>
+            Usuarios
+          </Link>
         </nav>
       </div>
       <div className="flex items-center gap-4">
