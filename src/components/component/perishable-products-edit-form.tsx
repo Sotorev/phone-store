@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from '@/hooks/auth-context';
 import { useToast } from "@/components/ui/use-toast";
-
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
+import path from "path";
 
 interface Props {
 	product_id: string;
@@ -27,11 +28,18 @@ interface Props {
 	price: number;
 	quantity: number;
 	categories: Category[];
+	suppliers: Supplier[];
 	products: Product[];
 	supplier_id: string;
 	updateProducts: () => void;
 	onClose: () => void;
 }
+
+interface Supplier {
+	supplier_id: string;
+	name: string;
+}
+
 
 interface Category {
 	category_id: string;
@@ -47,14 +55,16 @@ interface Product {
 	supplier_id: string;
 }
 
-export default function PerishableProductEditForm({ product_id, supplier_id, product_name, category_id, price, quantity, categories, products, onClose, updateProducts }: Props) {
-	console.log(product_id, supplier_id, product_name, category_id, price, quantity, categories, products, onClose, updateProducts);
-	
+export default function PerishableProductEditForm({ product_id, supplier_id, suppliers, product_name, category_id, price, quantity, categories, products, onClose, updateProducts }: Props) {
+
 	const router = useRouter();
 	const { isLogged } = useContext(AuthContext);
 	const { toast } = useToast();
+	const pathname = usePathname();
+
 
 	useEffect(() => {
+
 		const token = localStorage.getItem('token');
 		if (!token) {
 			router.push('/login');
@@ -90,7 +100,8 @@ export default function PerishableProductEditForm({ product_id, supplier_id, pro
 			router.push('/login');
 		}
 
-		const res = await fetch(`http://localhost:3001/web/api/nonPerishableProducts/${product_id}`, {
+		const url = pathname === '/productos/ver/perecederos' ? 'perishableProducts' : 'nonPerishableProducts';
+		const res = await fetch(`http://localhost:3001/web/api/${url}/${product_id}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -117,8 +128,9 @@ export default function PerishableProductEditForm({ product_id, supplier_id, pro
 	};
 
 	if (!isLogged) return null;
-
+	
 	return (
+
 		<Form {...form}>
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField
@@ -165,7 +177,7 @@ export default function PerishableProductEditForm({ product_id, supplier_id, pro
 					name="supplier_id"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Categoría</FormLabel>
+							<FormLabel>Proveedores</FormLabel>
 							<Select onValueChange={field.onChange} defaultValue={field.value}>
 								<FormControl>
 									<SelectTrigger>
@@ -174,9 +186,9 @@ export default function PerishableProductEditForm({ product_id, supplier_id, pro
 								</FormControl>
 								<SelectContent>
 									<SelectGroup>
-										{categories.map((category) => (
-											<SelectItem value={category.category_id.toString()} key={category.category_id}>
-												{category.category_name}
+										{suppliers.length > 0 && suppliers.map((supplier) => (
+											<SelectItem value={supplier.supplier_id.toString()} key={supplier.supplier_id}>
+												{supplier.name}
 											</SelectItem>
 										))}
 									</SelectGroup>

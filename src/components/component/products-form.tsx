@@ -29,7 +29,7 @@ export function ProductsForm() {
   const [categories, setCategories] = useState<{ category_id: string, category_name: string, is_active: 1 | 0 }[]>([]);
   const [suppliers, setSuppliers] = useState<{ supplier_id: string, name: string, description: string, is_active: 1 | 0 }[]>([]);
   const { toast } = useToast();
-  
+  const [key, setKey] = useState(+new Date())
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -89,14 +89,15 @@ export function ProductsForm() {
       productionDate: '',
       price: 0,
       quantity: 0,
-      category: '',
-      supplier: '',
 
 
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    
+    setKey(+new Date())
+
     const token = localStorage.getItem('token');
     if (!token) {
       router.push('/login');
@@ -123,7 +124,7 @@ export function ProductsForm() {
       if (res.ok) {
         toast({ description: 'Producto perecedero creado exitosamente' });
         // Clear form
-        // form.reset();
+        form.reset();
       }
       else {
         toast({ description: 'Error al crear el producto', variant: 'destructive' });
@@ -138,7 +139,7 @@ export function ProductsForm() {
         },
         body: JSON.stringify({
           product_name: values.name,
-          category_id: values.category,
+          category_id: Number(values.category),
           price: values.price,
           quantity: values.quantity,
           supplier_id: Number(values.supplier),
@@ -148,7 +149,7 @@ export function ProductsForm() {
       if (res.ok) {
         toast({ description: 'Producto creado exitosamente' });
         // Clear form
-        // form.reset();
+        form.reset();
       }
       else {
         toast({ description: 'Error al crear el producto', variant: 'destructive' });
@@ -190,7 +191,7 @@ export function ProductsForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categoría</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} key={key*2}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona una categoría" />
@@ -216,14 +217,14 @@ export function ProductsForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Proveedores</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} key={key} >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona un proveedor" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectGroup>
+                      <SelectGroup >
                         {suppliers.map((supplier) => (
                           <SelectItem value={supplier.supplier_id.toString()} key={supplier.supplier_id}>
                             {supplier.name}
@@ -312,6 +313,7 @@ export function ProductsForm() {
                 />
               </>
             )}
+            
             <Button type="submit" className="w-full">Crear Producto</Button>
           </form>
         </Form>

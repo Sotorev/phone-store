@@ -19,12 +19,12 @@ import { toast } from '@/components/ui/use-toast';
 
 const PerishableProductsPage = () => {
 	const { isLogged } = useContext(AuthContext);
-	const [perishableProducts, setPerishableProducts] = useState<{ product_id: string, product_name: string, category_id: string, price: number, quantity: number }[]>([]);
+	const [perishableProducts, setPerishableProducts] = useState<{ product_id: string, supplier_id: string, product_name: string, category_id: string, price: number, quantity: number }[]>([]);
 	const router = useRouter();
 	const [showModal, setShowModal] = useState({ edit: false, delete: false });
-	const [selectedProduct, setSelectedProduct] = useState<{ product_id: string, product_name: string, category_id: string, price: number, quantity: number } | null>(null);
+	const [selectedProduct, setSelectedProduct] = useState<{ product_id: string, supplier_id: string, product_name: string, category_id: string, price: number, quantity: number } | null>(null);
 	const [categories, setCategories] = useState<{ category_id: string, category_name: string }[]>([]);
-
+	const [suppliers, setSuppliers] = useState<{ supplier_id: string, name: string }[]>([]);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
@@ -57,6 +57,19 @@ const PerishableProductsPage = () => {
 				setCategories(data);
 			}
 			);
+
+		fetch('http://localhost:3001/web/api/supplier', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${token}` || '',
+			},
+
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setSuppliers(data);
+			});
 
 
 	}, []);
@@ -134,6 +147,7 @@ const PerishableProductsPage = () => {
 					<TableRow>
 						<TableHead className="w-[150px]">Nombre del producto</TableHead>
 						<TableHead>Categoría</TableHead>
+						<TableHead>Proveedor</TableHead>
 						<TableHead>Precio</TableHead>
 						<TableHead>Cantidad</TableHead>
 						{/* <TableHead>Fecha de producción</TableHead>
@@ -146,6 +160,7 @@ const PerishableProductsPage = () => {
 						<TableRow key={product.product_id}>
 							<TableCell>{product.product_name}</TableCell>
 							<TableCell>{categories.find(category => category.category_id === product.category_id)?.category_name}</TableCell>
+							<TableCell>{suppliers.find(supplier => supplier.supplier_id === product.supplier_id)?.name}</TableCell>
 							<TableCell>{product.price}</TableCell>
 							<TableCell>{product.quantity}</TableCell>
 							{/* <TableCell>{product.production_date}</TableCell>
@@ -181,8 +196,10 @@ const PerishableProductsPage = () => {
 						quantity={selectedProduct.quantity}
 						onClose={() => setShowModal({ ...showModal, edit: false })}
 						products={perishableProducts}
+						suppliers={suppliers}
 						categories={categories}
 						updateProducts={updateProducts}
+						supplier_id={selectedProduct.supplier_id}
 					/>
 				)}
 			</Modal>
