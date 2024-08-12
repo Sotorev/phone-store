@@ -126,8 +126,19 @@ const PerishableProductsPage = () => {
 		});
 
 		if (res.ok) {
-			const updatedBatches = batches.filter(batch => batch.batch_id !== id);
-			setBatches(updatedBatches);
+			fetch('http://localhost:3001/web/api/batch', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}` || '',
+				},
+
+			})
+				.then((res) => res.json())
+				.then((data) => {
+					setBatches(data);
+				});
+			
 			setShowModal({ ...showModal, delete: false });
 			toast({ description: 'Batch deleted successfully' });
 		}
@@ -151,6 +162,8 @@ const PerishableProductsPage = () => {
 						<TableHead>Precio Unitario</TableHead>
 						<TableHead>Stock de lote</TableHead>
 						<TableHead>Stock global</TableHead>
+						<TableHead>Fecha de producción</TableHead>
+						<TableHead>Fecha de expiración</TableHead>
 
 						{/* <TableHead>Fecha de producción</TableHead>
 						<TableHead>Fecha de expiración</TableHead> */}
@@ -165,6 +178,8 @@ const PerishableProductsPage = () => {
 							<TableCell>{batch.PerishableProduct.price}</TableCell>
 							<TableCell>{batch.quantity}</TableCell>
 							<TableCell>{batch.PerishableProduct.global_quantity}</TableCell>
+							<TableCell>{batch.production_date}</TableCell>
+							<TableCell>{batch.expiration_date}</TableCell>
 							{/* <TableCell>{product.production_date}</TableCell>
 							<TableCell>{product.expiration_date}</TableCell> */}
 							<TableCell className="text-right space-x-2">

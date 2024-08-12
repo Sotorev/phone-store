@@ -29,6 +29,7 @@ export function ProductsForm() {
   const [categories, setCategories] = useState<{ category_id: string, category_name: string, is_active: 1 | 0 }[]>([]);
   const [suppliers, setSuppliers] = useState<{ supplier_id: string, name: string, description: string, is_active: 1 | 0 }[]>([]);
   const { toast } = useToast();
+  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -115,13 +116,14 @@ export function ProductsForm() {
           expiration_date: values.expirationDate,
           production_date: values.productionDate,
           category_id: Number(values.category),
+          supplier_id: Number(values.supplier),
         }),
       });
 
       if (res.ok) {
         toast({ description: 'Producto perecedero creado exitosamente' });
         // Clear form
-        form.reset();
+        // form.reset();
       }
       else {
         toast({ description: 'Error al crear el producto', variant: 'destructive' });
@@ -139,14 +141,14 @@ export function ProductsForm() {
           category_id: values.category,
           price: values.price,
           quantity: values.quantity,
-          supplier_id: values.supplier,
+          supplier_id: Number(values.supplier),
         }),
       });
 
       if (res.ok) {
         toast({ description: 'Producto creado exitosamente' });
         // Clear form
-        form.reset();
+        // form.reset();
       }
       else {
         toast({ description: 'Error al crear el producto', variant: 'destructive' });

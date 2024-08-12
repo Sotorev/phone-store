@@ -15,14 +15,15 @@ import { useRouter } from 'next/navigation';
 import Modal from '@/components/component/modal';
 import PerishableProductEditForm from '@/components/component/perishable-products-edit-form';
 import { toast } from '@/components/ui/use-toast';
+import { BatchForm } from '@/components/component/batch-form';
 
 
 const PerishableProductsPage = () => {
 	const { isLogged } = useContext(AuthContext);
-	const [perishableProducts, setPerishableProducts] = useState<{ product_id: string, product_name: string, category_id: string, price: number, quantity: number}[]>([]);
+	const [perishableProducts, setPerishableProducts] = useState<{ product_id: string, supplier_id: string, product_name: string, category_id: string, price: number, quantity: number}[]>([]);
 	const router = useRouter();
-	const [showModal, setShowModal] = useState({ edit: false, delete: false });
-	const [selectedProduct, setSelectedProduct] = useState<{ product_id: string, product_name: string, category_id: string, price: number, quantity: number} | null>(null);
+	const [showModal, setShowModal] = useState({ edit: false, delete: false, add: false });
+	const [selectedProduct, setSelectedProduct] = useState<{ product_id: string, supplier_id: string, product_name: string, category_id: string, price: number, quantity: number} | null>(null);
 	const [categories, setCategories] = useState<{ category_id: string, category_name: string }[]>([]);
 
 
@@ -97,6 +98,14 @@ const PerishableProductsPage = () => {
 		setShowModal({ ...showModal, delete: true })
 	}
 
+	const onAdd = (id: string) => {
+		const product = perishableProducts.find(product => product.product_id === id);
+		if (product) {
+			setSelectedProduct(product);
+		}
+		setShowModal({ ...showModal, add: true })
+	}
+
 	const deletePerishableProduct = async (id: string) => {
 		const token = localStorage.getItem('token');
 		if (!token) {
@@ -151,8 +160,9 @@ const PerishableProductsPage = () => {
 							{/* <TableCell>{product.production_date}</TableCell>
 							<TableCell>{product.expiration_date}</TableCell> */}
 							<TableCell className="text-right space-x-2">
-								<Button onClick={() => onEdit(product.product_id)}>Edit</Button>
-								<Button variant="destructive" onClick={() => onDelete(product.product_id)}>Delete</Button>
+								<Button onClick={() => onEdit(product.product_id)}>Editar</Button>
+								<Button variant="destructive" onClick={() => onDelete(product.product_id)}>Eliminar</Button>
+								<Button variant="secondary" onClick={() => onAdd(product.product_id)}>Agregar lote</Button>
 							</TableCell>
 						</TableRow>
 					))}
@@ -164,8 +174,9 @@ const PerishableProductsPage = () => {
 						<h2 className="text-2xl font-bold">Delete product</h2>
 						<p>Are you sure you want to delete the product?</p>
 						<div className="flex justify-end gap-4">
-							<Button variant="secondary" onClick={() => setShowModal({ ...showModal, delete: false })}>Cancel</Button>
-							<Button variant="destructive" onClick={() => deletePerishableProduct(selectedProduct.product_id)}>Delete</Button>
+							<Button variant="secondary" onClick={() => setShowModal({ ...showModal, delete: false })}>Cancelar</Button>
+							<Button variant="destructive" onClick={() => deletePerishableProduct(selectedProduct.product_id)}>Eliminar</Button>
+
 						</div>
 					</div>
 				)}
@@ -182,6 +193,18 @@ const PerishableProductsPage = () => {
 						onClose={() => setShowModal({ ...showModal, edit: false })}
 						products={perishableProducts}
 						categories={categories}
+						supplier_id={selectedProduct.supplier_id}
+						updateProducts={updateProducts}
+					/>
+				)}
+			</Modal>
+
+			<Modal isOpen={showModal.add} onClose={() => setShowModal({ ...showModal, add: false })} hideCloseButton={true} className='w-full'>
+				{selectedProduct && (
+					// BatchAddForm
+					<BatchForm
+						productId={selectedProduct.product_id}
+						onClose={() => setShowModal({ ...showModal, add: false })}
 						updateProducts={updateProducts}
 					/>
 				)}

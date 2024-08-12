@@ -28,6 +28,7 @@ interface Props {
 	quantity: number;
 	categories: Category[];
 	products: Product[];
+	supplier_id: string;
 	updateProducts: () => void;
 	onClose: () => void;
 }
@@ -43,9 +44,12 @@ interface Product {
 	category_id: string;
 	price: number;
 	quantity: number;
+	supplier_id: string;
 }
 
-export default function PerishableProductEditForm({ product_id, product_name, category_id, price, quantity, categories, products, onClose, updateProducts }: Props) {
+export default function PerishableProductEditForm({ product_id, supplier_id, product_name, category_id, price, quantity, categories, products, onClose, updateProducts }: Props) {
+	console.log(product_id, supplier_id, product_name, category_id, price, quantity, categories, products, onClose, updateProducts);
+	
 	const router = useRouter();
 	const { isLogged } = useContext(AuthContext);
 	const { toast } = useToast();
@@ -66,6 +70,7 @@ export default function PerishableProductEditForm({ product_id, product_name, ca
 			.min(0, { message: 'El precio debe ser mayor o igual a 0' }),
 		quantity: z.number()
 			.min(0, { message: 'La cantidad debe ser mayor o igual a 0' }),
+		supplier_id: z.string(),
 	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -75,6 +80,7 @@ export default function PerishableProductEditForm({ product_id, product_name, ca
 			category_id,
 			price: Number(price),
 			quantity,
+			supplier_id
 		},
 	});
 
@@ -138,6 +144,32 @@ export default function PerishableProductEditForm({ product_id, product_name, ca
 								<FormControl>
 									<SelectTrigger>
 										<SelectValue placeholder="Selecciona una categoría" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									<SelectGroup>
+										{categories.map((category) => (
+											<SelectItem value={category.category_id.toString()} key={category.category_id}>
+												{category.category_name}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="supplier_id"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Categoría</FormLabel>
+							<Select onValueChange={field.onChange} defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder="Selecciona un proveedor" />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
