@@ -39,14 +39,22 @@ export function LoginForm() {
       },
       body: JSON.stringify({ username, password })
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error('Unauthorized');
+        }
+        return res.json();
+      })
       .then((data) => {
         // Save token and userId to localStorage
-        localStorage.setItem('token', data.token)
-        login()
-        router.push('/')
+        localStorage.setItem('token', data.token);
+        login();
+        router.push('/');
       })
-      .catch(console.error) // eslint-disable
+      .catch((error) => {
+        console.error(error);
+        // Handle unauthorized error here
+      });
   }
 
   return (
