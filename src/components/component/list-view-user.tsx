@@ -158,7 +158,7 @@ export function ListViewUser() {
         <Button
           variant="outline"
           className="bg-[#f0f0f0] text-[#604CC3] hover:bg-[#e0e0e0]"
-          onClick={() => router.push('/User/listViewOff')}
+          onClick={() => router.push('/user/listViewOff')}
         >
           Ver Desactivados
         </Button>
@@ -168,10 +168,10 @@ export function ListViewUser() {
           <TableHeader className="bg-[#604CC3] text-white">
             <TableRow>
               <TableHead className="px-4 py-3 font-bold text-white">ID</TableHead>
-              <TableHead className="px-4 py-3 font-bold text-white">Username</TableHead>
-              <TableHead className="px-4 py-3 font-bold text-white">Full Name</TableHead>
-              <TableHead className="px-4 py-3 font-bold text-white">Role</TableHead>
-              <TableHead className="px-4 py-3 font-bold text-white">Configuration</TableHead>
+              <TableHead className="px-4 py-3 font-bold text-white">Nombre de usuario</TableHead>
+              <TableHead className="px-4 py-3 font-bold text-white">Nombre completo</TableHead>
+              <TableHead className="px-4 py-3 font-bold text-white">Rol</TableHead>
+              <TableHead className="px-4 py-3 font-bold text-white">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -183,10 +183,10 @@ export function ListViewUser() {
                 <TableCell className="px-4 py-3">{user.role}</TableCell>
                 <TableCell>
                   <Button variant="outline" size="sm" className="mr-2" onClick={() => handleEditClick(user)}>
-                    Edit
+                    Editar
                   </Button>
                   <Button variant="outline" size="sm" className="mr-2" onClick={() => handleDeactivateUser(user.user_id, user.username)}>
-                    Deactivate
+                    Desactivar
                   </Button>
                 </TableCell>
               </TableRow>

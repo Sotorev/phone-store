@@ -50,6 +50,7 @@ export function LoginForm() {
         localStorage.setItem('token', data.token);
         login();
         router.push('/');
+        console.log(localStorage.getItem('token'));
       })
       .catch((error) => {
         console.error(error);

@@ -1,10 +1,10 @@
-import { ListViewUseroff } from '@/components/component/list-view-user-off'
+import { ListViewOffSchedules } from '@/components/component/list-view-schedules-off'
 import React from 'react'
 
-const User = () => {
+const user = () => {
   return (
-	<ListViewUseroff />
+	<ListViewOffSchedules />
   )
 }
 
-export default User
+export default user

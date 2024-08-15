@@ -1,10 +1,10 @@
 import { ListViewUser } from '@/components/component/list-view-user'
 import React from 'react'
 
-const User = () => {
+const user = () => {
   return (
 	<ListViewUser />
   )
 }
 
-export default User
+export default user

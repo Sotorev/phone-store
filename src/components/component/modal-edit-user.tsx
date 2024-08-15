@@ -99,7 +99,7 @@ export function ModalEditUser({ user, onClose, onUpdate }: ModalEditUserProps) {
               <Label htmlFor="password">Contraseña</Label>
               <Input
                 id="password"
-                type="text"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Ingresa tu contraseña"

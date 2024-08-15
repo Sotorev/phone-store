@@ -30,7 +30,7 @@ export function Header() {
                   Inicio
                 </NavigationMenuLink>
               </Link>
-              <Link href="/User/listView" legacyBehavior passHref>
+              <Link href="/user/listView" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
                   Usuarios
                 </NavigationMenuLink>
