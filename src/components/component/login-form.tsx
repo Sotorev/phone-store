@@ -16,7 +16,7 @@ const loginSchema = z.object({
 
 export function LoginForm() {
   const router = useRouter();
-  const { isLogged } = useContext(AuthContext);
+  const { isLogged, login } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -38,6 +38,7 @@ export function LoginForm() {
     if (res.ok) {
       const data = await res.json();
       localStorage.setItem('token', data.token);
+      login();
       router.push('/');
     } else {
       // Handle error

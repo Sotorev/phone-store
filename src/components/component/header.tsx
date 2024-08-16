@@ -30,6 +30,8 @@ export function Header() {
                   Inicio
                 </NavigationMenuLink>
               </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <Link href="/User/listView" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
                   Usuarios
@@ -81,7 +83,7 @@ export function Header() {
             <NavigationMenuItem>
               <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Ventas</NavigationMenuTrigger>
               <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <ListItem href="/ventas/nuevo" title="Crear">
                     Crear venta
                   </ListItem>
@@ -100,14 +102,14 @@ export function Header() {
                   Lotes
                 </NavigationMenuLink>
               </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <Link href="/schedules/listView" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
                   Horarios
                 </NavigationMenuLink>
               </Link>
-              </NavigationMenuItem>
+            </NavigationMenuItem>
 
           </NavigationMenuList>
 
