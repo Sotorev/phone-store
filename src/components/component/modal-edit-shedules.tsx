@@ -97,7 +97,11 @@ export function ModalEditSchedule({ schedule, users, onClose, onUpdate }: ModalE
               <DatePicker
                 id="date"
                 selected={date}
-                onChange={(date: Date) => setDate(date)}
+                onChange={(date: Date | null, event?: React.KeyboardEvent<HTMLElement> | React.MouseEvent<HTMLElement>) => {
+                  if (date) {
+                    setDate(date);
+                  }
+                }}
                 dateFormat="yyyy-MM-dd"
               />
             </div>

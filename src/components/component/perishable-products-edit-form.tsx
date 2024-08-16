@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router'; // Usa useRouter
+import { useContext, useEffect } from 'react';
 import AuthContext from '@/hooks/auth-context';
 import { useToast } from "@/components/ui/use-toast";
-import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -19,7 +18,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
-import path from "path";
 
 interface Props {
 	product_id: string;
@@ -40,7 +38,6 @@ interface Supplier {
 	name: string;
 }
 
-
 interface Category {
 	category_id: string;
 	category_name: string;
@@ -57,19 +54,17 @@ interface Product {
 
 export default function PerishableProductEditForm({ product_id, supplier_id, suppliers, product_name, category_id, price, quantity, categories, products, onClose, updateProducts }: Props) {
 
-	const router = useRouter();
+	const router = useRouter(); // Usa useRouter
 	const { isLogged } = useContext(AuthContext);
 	const { toast } = useToast();
-	const pathname = usePathname();
-
+	const pathname = router.pathname; // Usa router.pathname
 
 	useEffect(() => {
-
 		const token = localStorage.getItem('token');
 		if (!token) {
 			router.push('/login');
 		}
-	}, []);
+	}, [router]);
 
 	const formSchema = z.object({
 		product_name: z.string()
@@ -98,6 +93,7 @@ export default function PerishableProductEditForm({ product_id, supplier_id, sup
 		const token = localStorage.getItem('token');
 		if (!token) {
 			router.push('/login');
+			return; // Asegúrate de detener la ejecución si no hay token
 		}
 
 		const url = pathname === '/productos/ver/perecederos' ? 'perishableProducts' : 'nonPerishableProducts';
@@ -130,7 +126,6 @@ export default function PerishableProductEditForm({ product_id, supplier_id, sup
 	if (!isLogged) return null;
 	
 	return (
-
 		<Form {...form}>
 			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
 				<FormField

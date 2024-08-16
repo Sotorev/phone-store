@@ -62,7 +62,7 @@ export function SalesForm() {
       inventory_id: z.string().min(1, { message: 'El ID del inventario es obligatorio' }),
       quantity: z.string().min(1, { message: 'La cantidad debe ser al menos 1' }),
       unit_price: z.string().min(1, { message: 'El precio debe ser al menos 0.01' }),
-      product_type: z.enum(['Perishable', 'NonPerishable'], { message: 'Selecciona un tipo de producto' }),
+      product_type: z.enum(['Perishable', 'Non Perishable'], { message: 'Selecciona un tipo de producto' }),
       customers_customer_id: z.string().min(1, { message: 'El ID del cliente es obligatorio' }),
     }))
   });
@@ -75,7 +75,7 @@ export function SalesForm() {
         inventory_id: '',
         quantity: '',
         unit_price: '',
-        product_type: 'Perishable',
+        product_type: 'Non Perishable',
         customers_customer_id: '',
       }]
     },
@@ -90,14 +90,13 @@ export function SalesForm() {
       return;
     }
 
-    // Convert values from strings to their appropriate types
     const formattedValues = {
       user_id: Number(values.user_id),
       details: values.details.map(detail => ({
         inventory_id: Number(detail.inventory_id),
         quantity: Number(detail.quantity),
         unit_price: Number(detail.unit_price),
-        product_type: detail.product_type, // No need to convert, already a string
+        product_type: detail.product_type,
         customers_customer_id: Number(detail.customers_customer_id),
       })),
     };
@@ -194,7 +193,10 @@ export function SalesForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Tipo de Producto</FormLabel>
-                      <Select {...field}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecciona un tipo de producto" />
@@ -202,8 +204,8 @@ export function SalesForm() {
                         </FormControl>
                         <SelectContent>
                           <SelectGroup>
+                            <SelectItem value="Non Perishable">No Perecedero</SelectItem>
                             <SelectItem value="Perishable">Perecedero</SelectItem>
-                            <SelectItem value="NonPerishable">No Perecedero</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>

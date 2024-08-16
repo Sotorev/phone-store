@@ -207,6 +207,8 @@ const SalesDetailsPage: React.FC = () => {
       ],
     };
 
+    
+
     const token = localStorage.getItem('token');
     try {
       await fetch('http://localhost:3001/web/api/salesUpdate', {
