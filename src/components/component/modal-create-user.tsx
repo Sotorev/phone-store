@@ -27,7 +27,7 @@ export function ModalCreateUser({ onClose, onCreate }: ModalCreateUserProps) {
     const newUser = { username, password, full_name: fullName, role };
 
     try {
-      const response = await fetch("http://localhost:3001/web/api/users", { // Asegúrate de que esta URL sea correcta
+      const response = await fetch("http://localhost:3001/web/api/users", { 
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -44,8 +44,8 @@ export function ModalCreateUser({ onClose, onCreate }: ModalCreateUserProps) {
           confirmButtonColor: '#604CC3',
           confirmButtonText: 'Cerrar'
         }).then(() => {
-          onCreate(); // Call the callback function to refresh the user list
-          onClose(); // Close the modal
+          onCreate(); 
+          onClose(); 
         });
       } else {
         const { error } = await response.json();

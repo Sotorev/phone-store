@@ -79,9 +79,32 @@ export function Header() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
+              <NavigationMenuTrigger className={cn("bg-transparent hover:bg-[#604CC3]")} >Ventas</NavigationMenuTrigger>
+              <NavigationMenuContent>
+              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <ListItem href="/ventas/nuevo" title="Crear">
+                    Crear venta
+                  </ListItem>
+                  <ListItem href="/ventas/detalle-de-ventas/ver" title="Ver detalles de venta">
+                    Visualiza los detalles de venta
+                  </ListItem>
+                  <ListItem href="/ventas/ver/" title="Ver ventas">
+                    Visualiza las ventas
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <Link href="/lotes/ver" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
                   Lotes
+                </NavigationMenuLink>
+              </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+              <Link href="/schedules/listView" legacyBehavior passHref>
+                <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "hover:bg-transparent, bg-transparent")}>
+                  Horarios
                 </NavigationMenuLink>
               </Link>
               </NavigationMenuItem>

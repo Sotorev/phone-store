@@ -172,7 +172,6 @@ const PerishableProductsPage = () => {
 							<TableCell>{categories.find(category => category.category_id === product.category_id)?.category_name}</TableCell>
 							<TableCell>{suppliers.find(supplier => supplier.supplier_id === product.supplier_id)?.name}</TableCell>
 							<TableCell>{product.price}</TableCell>
-							<TableCell>{product.price}</TableCell>
 							<TableCell>{product.quantity}</TableCell>
 							{/* <TableCell>{product.production_date}</TableCell>
 							<TableCell>{product.expiration_date}</TableCell> */}
