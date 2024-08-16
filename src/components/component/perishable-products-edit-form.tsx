@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from 'next/router'; // Usa useRouter
+import { useRouter } from 'next/navigation'; // Usa useRouter
+import { usePathname } from 'next/navigation'
 import { useContext, useEffect } from 'react';
 import AuthContext from '@/hooks/auth-context';
 import { useToast } from "@/components/ui/use-toast";
@@ -57,7 +58,7 @@ export default function PerishableProductEditForm({ product_id, supplier_id, sup
 	const router = useRouter(); // Usa useRouter
 	const { isLogged } = useContext(AuthContext);
 	const { toast } = useToast();
-	const pathname = router.pathname; // Usa router.pathname
+	const pathname = usePathname();// Usa router.pathname
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
