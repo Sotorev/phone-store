@@ -158,7 +158,7 @@ export function ListViewUser() {
         <Button
           variant="outline"
           className="bg-[#f0f0f0] text-[#604CC3] hover:bg-[#e0e0e0]"
-          onClick={() => router.push('/User/listViewOff')}
+          onClick={() => router.push('/user/listViewOff')}
         >
           Ver Desactivados
         </Button>

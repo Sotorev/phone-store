@@ -120,7 +120,7 @@ export function ListViewUseroff() {
         <Button 
           variant="outline" 
           className="bg-[#604CC3] text-white hover:bg-[#4b3f8c]"
-          onClick={() => router.push('/User/listView')} 
+          onClick={() => router.push('/user/listView')} 
         >
             Regresar
         </Button>
